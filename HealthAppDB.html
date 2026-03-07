@@ -124,11 +124,11 @@
       request.onsuccess = (event) => {
         db = event.target.result;
         var baseUrl =
-          "https://raw.githubusercontent.com/Herofrx/CST2572-Assessment-01/main/";
-        fetchAndStore(baseUrl + "Admin.json", "admins", true);
-        fetchAndStore(baseUrl + "Patients.json", "patients", true);
-        fetchAndStore(baseUrl + "Medicine.json", "medicine", false);
-        fetchAndStore(baseUrl + "Doctors.json", "doctors", true);
+          "https://raw.githubusercontent.com/x113r0/CST2572-Assessment-01/main/";
+        fetchAndStore(baseUrl + "json/Admin.json", "admins", true);
+        fetchAndStore(baseUrl + "json/Patients.json", "patients", true);
+        fetchAndStore(baseUrl + "json/Medicine.json", "medicine", false);
+        fetchAndStore(baseUrl + "json/Doctors.json", "doctors", true);
         // fetchAndStore(baseUrl + "Prescriptions.json", "prescriptions", false);
         // fetchAndStore(baseUrl + "Appointments.json", "appointments", false);
         // fetchAndStore(baseUrl + "Notes.json", "notes", false);
@@ -140,3 +140,4 @@
   </head>
   <h1>Database Creation</h1>
 </html>
+
