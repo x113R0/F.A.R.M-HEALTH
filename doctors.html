@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Dashboard - F.A.R.M. HEALTH</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/Logo.png" alt="Healthcare Logo" />
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="login.html">Services</a></li>
+          <li><a href="login.html">Book Appointment</a></li>
+          <li><a href=#footer>Contact</a></li>
+          <li class="active"><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="doctor">
+      <div class="page-header">
+        <h1>Doctor Dashboard</h1>
+        <p>Manage your patients and medical records</p>
+      </div>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <h3 class="card-title">Total Patients</h3>
+          <p class="card-value" id="totalPatients">5</p>
+          <img class="icon" src="img/patients.png" alt="Total Patients" />
+        </div>
+
+        <div class="stat-card">
+          <h3 class="card-title">Upcoming Appointments</h3>
+          <p class="card-value">0</p>
+          <img
+            class="icon"
+            src="img/calender.jpg"
+            alt="Upcoming Appointments"
+          />
+        </div>
+
+        <div class="stat-card">
+          <h3 class="card-title">Monitoring</h3>
+          <p class="card-value" id="monitoringCount">2</p>
+          <img class="icon" src="img/monitor.png" alt="Monitoring" />
+        </div>
+      </section>
+
+      <section class="split-layout">
+        <section class="patient-list-panel">
+          <h2>Patient List</h2>
+          <p class="card-description">
+            <span id="patientCount">5</span> patients found
+          </p>
+
+          <div class="search-bar">
+            <img src="img/search.png" alt="Search Icon" class="search-icon" height="22px" width="22px"/>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search patients..."
+            />
+          </div>
+
+          <div class="filters">
+            <input type="radio" name="filter" class="hidden" id="all" value="all" checked>
+            <label for="all" class="filter-btn active" id="filter-all">All</label>
+            <input type="radio" name="filter" class="hidden" id="stable" value="stable">
+            <label for="stable" class="filter-btn" id="filter-stable">Stable</label>
+            <input type="radio" name="filter" class="hidden" id="monitoring" value="monitoring">
+            <label for="monitoring" class="filter-btn" id="filter-monitoring">Monitoring</label>
+            <input type="radio" name="filter" class="hidden" id="critical" value="critical">
+            <label for="critical" class="filter-btn" id="filter-critical">Critical</label>
+          </div>
+
+          <div class="patient-list" id="patientList">
+            <!-- Patients will be rendered here by JavaScript -->
+          </div>
+        </section>
+
+        <section class="patient-details-panel" id="detailsPanel">
+          <div class="empty-state">
+            <h3>Select a patient</h3>
+            <p>
+              Click on a patient from the list to view their details and medical
+              records
+            </p>
+          </div>
+        </section>
+      </section>
+    </main>
+    <footer id="footer">
+      <div class="footer-container">
+        <img
+          src="img/Logo.png"
+          alt="F.A.R.M. Health Logo"
+          class="footer-logo"
+        />
+        <div class="footer-content">
+          <div class="footer-section about-us">
+            <h4>About Us</h4>
+            <p>
+              Farm Healthcare is dedicated to providing compassionate,
+              comprehensive medical care with a patient-centered approach. Our
+              mission is to deliver personalized, high-quality healthcare
+              services to our community.
+            </p>
+            <div class="contact-details">
+              <p>123 Healthcare Street, Dubai Healthcare City, UAE</p>
+              <p>Email: contact@farmhealthcare.com</p>
+              <p>Phone: +971 06 6767 676</p>
+            </div>
+          </div>
+
+          <div class="footer-section services">
+            <h4>Our Services</h4>
+            <div class="service-columns">
+              <div class="service-column">
+                <h5>Patient Care</h5>
+                <ul>
+                  <li><a href=#>General Medicine</a></li>
+                  <li><a href=#>Pediatrics</a></li>
+                  <li><a href=#>Gynecology</a></li>
+                  <li><a href=#>Cardiology</a></li>
+                </ul>
+              </div>
+              <div class="service-column">
+                <h5>Patient Resources</h5>
+                <ul>
+                  <li><a href=#>Book Appointment</a></li>
+                  <li><a href=#>Patient Portal</a></li>
+                  <li><a href=#>Medical Records</a></li>
+                  <li><a href=#>Insurance Guide</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-section connect">
+            <h4>Connect With Us</h4>
+            <div class="social-icons">
+              <a
+                href="facebook.com/FARMHealthCare"
+                aria-label="Facebook"
+                class="social-icon"
+              >
+                <img src="img/facebooklogo.png" alt="Facebook" />
+              </a>
+              <a
+                href="twitter.com/FARMHealthCare"
+                aria-label="Twitter"
+                class="social-icon"
+              >
+                <img src="img/xlogo.jpg" alt="Twitter" />
+              </a>
+              <a
+                href="instagram.com/FARMHealthCare"
+                aria-label="Instagram"
+                class="social-icon"
+              >
+                <img src="img/instagramlogo.png" alt="Instagram" />
+              </a>
+              <a
+                href="linkedin.com/FARMHealthCare"
+                aria-label="LinkedIn"
+                class="social-icon"
+              >
+                <img src="img/linkedinlogo.png" alt="LinkedIn" />
+              </a>
+            </div>
+            <p class="social-description">
+              Stay connected and informed about our latest healthcare
+              initiatives, community events, and medical insights.
+            </p>
+            <a href="tel:1800-123-456" class="emergency-btn"
+              >Emergency Helpline</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Farm Healthcare. All Rights Reserved.</p>
+          <div class="legal-links">
+            <a href=#>Privacy Policy</a>
+            <a href=#>Terms of Service</a>
+            <a href=#>Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      let db;
+      const secretKey = "1234567890987654321";
+      let currentDoctor = Number(CryptoJS.AES.decrypt(localStorage.getItem("doctorId"), secretKey).toString(CryptoJS.enc.Utf8)); // gets the current doctor form local stroage
+      let currentPatient = 1; //dummy
+      let currentFilter = "all";
+      let selectedMedicine;
+
+      // Connects to the database and loads few stuffs
+      const request = indexedDB.open("HealthAppDB", 1);
+      request.onsuccess = function (event) {
+        db = event.target.result;
+        uodateDoctorInfo();
+        renderPatients();
+        updateTotalPatients();
+        updateMonitoringCount();
+      };
+      request.onerror = function (event) {
+        console.error("Database error:", event.target.error);
+        alert("Error connecting to database.");
+      };
+
+      // loads current doctor info for appoiment and few others
+      function uodateDoctorInfo() {
+        const getRequest = db.transaction(["doctors"], "readonly").objectStore("doctors").get(currentDoctor);
+        getRequest.onsuccess = function (event) {
+          currentDoctor = event.target.result;
+        };
+
+        getRequest.onerror = function (event) {
+          console.error("Error fetching doctor info:", event.target.error);
+        };
+      }
+
+      // Update total patients count from database
+      function updateTotalPatients() {
+        const countRequest = db
+          .transaction(["patients"], "readonly")
+          .objectStore("patients")
+          .count();
+          countRequest.onsuccess = function () {
+            document.getElementById("totalPatients").textContent =
+            countRequest.result;
+        };
+      }
+
+      // Update monitoring count from database
+      function updateMonitoringCount() {
+        const countRequest = db
+          .transaction(["patients"], "readonly")
+          .objectStore("patients")
+          .index("status")
+          .count("monitoring");
+
+        countRequest.onsuccess = function () {
+          document.getElementById("monitoringCount").textContent =
+            countRequest.result;
+        };
+      }
+
+      // Render patients list(right)
+      function renderPatients() {
+        let html = "";
+        let patientCount = 0;
+        const request = db.transaction(["patients"], "readonly").objectStore("patients").openCursor();
+        request.onsuccess = function (event) {
+          if (event.target.result) {
+            const patient = event.target.result.value;
+            let matchesFilters = true;
+
+            // Filter by Status
+            if (currentFilter !== "all" && patient.status !== currentFilter) {
+              matchesFilters = false;
+            }
+
+            // Filter by Search Query
+            if (matchesFilters && document.getElementById("searchInput").value.toLowerCase().length > 0) {
+              if (!(patient.First + " " + patient.Last).toLowerCase().includes(document.getElementById("searchInput").value.toLowerCase())) {
+                matchesFilters = false;
+              }
+            }
+            if (matchesFilters) {
+              patientCount++;
+
+              let active = "";
+              if (currentPatient.id === patient.id) {
+                active = "active";
+              }
+              html += `
+                <div class="patient-item ${active}" onclick='selectPatient(${patient.id})'>
+                  <div class="avatar">${patient.First[0] + patient.Last[0]}</div>
+                  <div class="patient-info">
+                    <div class="patient-name">
+                      <span>${patient.First + " " + patient.Last}</span>
+                      <span class="status-badge status-${patient.status}">${patient.status}</span>
+                    </div>
+                    <div class="patient-meta">
+                      ${patient.condition}
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
+            event.target.result.continue();
+          } else {
+            if (patientCount === 0) {
+              document.getElementById("patientList").innerHTML =
+                '<p style="text-align: center; padding: 20px; color: #666;">No patients found</p>';
+            } else {
+              document.getElementById("patientList").innerHTML = html;
+            }
+            document.getElementById("patientCount").textContent = patientCount;
+          }
+        };
+        request.onerror = function (event) {
+          console.error("Error loading patients:", event.target.error);
+        };
+      }
+
+      // Selects a patient to show details panel
+      function selectPatient(patientId) {
+        const getRequest = db.transaction(["patients"], "readonly").objectStore("patients").get(patientId);
+
+        getRequest.onsuccess = function (event) {
+          currentPatient = event.target.result;
+          renderPatients();
+          renderPatientDetails();
+        };
+
+        getRequest.onerror = function (event) {
+          console.error("Error selecting patient:", event.target.error);
+        };
+      }
+
+      // loads patient details(left panel)
+      function renderPatientDetails() {
+        let patientNotes = [];
+        let patientPrescriptions = [];
+        let patientAppointments = [];
+
+        if (!currentPatient) {
+          document.getElementById("detailsPanel").innerHTML = `
+            <div class="empty-state">
+              <h3>Select a patient</h3>
+              <p>Click on a patient from the list to view their details and medical records</p>
+            </div>
+          `;
+          return;
+        }
+
+        const notesRequest = db
+          .transaction(["notes"], "readonly")
+          .objectStore("notes")
+          .index("patientId")
+          .getAll(currentPatient.id);
+
+        notesRequest.onsuccess = function (event) {
+          patientNotes = event.target.result;
+          build();
+        };
+        notesRequest.onerror = function(event) {
+          console.error("Error fetching notes:", event.target.error);
+        };
+
+        const prescriptionsRequest = db
+          .transaction(["prescriptions"], "readonly")
+          .objectStore("prescriptions")
+          .index("patientId")
+          .getAll(currentPatient.id);
+
+        prescriptionsRequest.onsuccess = function (event) {
+          patientPrescriptions = event.target.result;
+          build();
+        };
+        prescriptionsRequest.onerror = function(event) {
+          console.error("Error fetching prescriptions:", event.target.error);
+        };
+
+        const appointmentsRequest = db
+          .transaction(["appointments"], "readonly")
+          .objectStore("appointments")
+          .index("patientId")
+          .getAll(currentPatient.id);
+          
+        appointmentsRequest.onsuccess = function (event) {
+          patientAppointments = event.target.result.filter(appointment => { return appointment.doctorId === currentDoctor.id; });
+          build();
+        };
+        appointmentsRequest.onerror = function(event) {
+          console.error("Error fetching appointments:", event.target.error);
+        };
+
+        // Builds the patient details panel form database
+        function build() {
+          // loads patient prescritions
+          function prescriptionsHtml() {
+            if (patientPrescriptions.length === 0) {
+              return '<p class="empty-list-message">No prescriptions yet</p>';
+            }
+            let html = "";
+            for (var i of patientPrescriptions) {
+              html += `
+                <div class="note-item">
+                  <div class="note-header">
+                    <span class="prescription-name">${i.medicineName}</span>
+                    <span class="note-date">${i.prescribedDate}</span>
+                  </div>
+                  <div class="note-content">
+                    <div class="prescription-grid">
+                      <div><strong>Dosage:</strong> ${i.dosage}</div>
+                      <div><strong>Frequency:</strong> ${i.frequency}</div>
+                    </div>
+                    <div><strong>Duration:</strong> ${i.duration}</div>
+                  </div>
+                </div>
+              `;
+            }
+            return html;
+          }
+
+          // loads patient appointments
+          function appointmentsHtml() {
+            if (patientAppointments.length === 0) {
+              return '<p class="empty-list-message">No appointment requests yet</p>';
+            }
+            let html = "";
+            for (var i of patientAppointments) {
+              html += `
+                <div class="note-item">
+                  <div class="note-header">
+                    <span class="note-date">${i.requestDate}</span>
+                    <span class="request-status status-${i.status}">
+                      ${i.status}
+                    </span>
+                  </div>
+                  <div class="note-content">
+                    <div>Preferred Date: ${i.preferredDate} at ${i.preferredTime}</div>
+                    <div><strong>Reason:</strong> ${i.reason}</div>
+                  </div>
+              `;
+                if (i.status === "pending") {
+                  html += `
+                    <div>
+                      <button class="btn-cancel" onclick="updateAppointmentStatus('${i.id}', 'rejected')">Reject</button>
+                      <button class="btn-save" onclick="updateAppointmentStatus('${i.id}', 'active')">Approve</button>
+                    </div>
+                  </div>`;
+                } else {
+                  html += `</div>`;
+                }
+            }
+            return html;
+          }
+
+          // loads patient notes
+          function notesHtml() {
+            if (patientNotes.length === 0) {
+              return '<p class="empty-list-message">No medical notes yet</p>';
+            }
+            let html = "";
+            for (var i of patientNotes) {
+              html += `
+                <div class="note-item">
+                  <div class="note-header">
+                    <span class="note-date">${i.date}</span>
+                  </div>
+                  <div class="note-content">${i.content}</div>
+                </div>
+              `;
+            }
+            return html;
+          }
+          // loads full patient details(leterially all the left page)
+          document.getElementById("detailsPanel").innerHTML = `
+            <div class="patient-details">
+              <div class="details-header">
+                <div class="details-avatar">${currentPatient.First[0] + currentPatient.Last[0]}</div>
+                <div class="details-info">
+                  <h2 class="details-name">${currentPatient.First + " " + currentPatient.Last}</h2>
+                  <span class="status-badge status-${currentPatient.status}">${currentPatient.status}</span>
+                </div>
+              </div>
+              <div class="info-grid">
+                <div class="info-item">
+                  <label>Age</label>
+                  <value>${currentPatient.age} years</value>
+                </div>
+                <div class="info-item">
+                  <label>Condition</label>
+                  <value>${currentPatient.condition}</value>
+                </div>
+                <div class="info-item">
+                  <label>Last Visit</label>
+                  <value>${currentPatient.lastVisit}</value>
+                </div>
+                <div class="info-item">
+                  <label>Next Appointment</label>
+                  <value>${currentPatient.nextAppointment}</value>
+                </div>
+                <div class="info-item">
+                  <label>Height</label>
+                  <value>${currentPatient.height}</value>
+                </div>
+                <div class="info-item">
+                  <label>Weight</label>
+                  <value>${currentPatient.weight}</value>
+                </div>
+              </div>
+              <div>
+                <div class="section-title">
+                  <h3 class="section-header-title">Prescriptions</h3>
+                  <button class="btn-add" onclick="toggleAddPrescription()">Add Prescription</button>
+                </div>
+                <div id="addPrescriptionForm" class="add-note-form">
+                  <label for="medicineSearch">Medicine Name</label>
+                  <input type="text" id="medicineSearch" placeholder="Type medicine name..." oninput="searchMedicine()" />
+                  <div id="medicineStatus"></div>
+                  <label for="prescriptionDosage">Dosage</label>
+                  <input type="text" id="prescriptionDosage" placeholder="e.g., 10mg" />
+                  <label for="prescriptionFrequency">Frequency</label>
+                  <input type="text" id="prescriptionFrequency" placeholder="e.g., Once daily, Twice daily, As needed" />
+                  <label for="prescriptionDuration">Duration</label>
+                  <input type="text" id="prescriptionDuration" placeholder="e.g., 30 days" />
+                  <button class="btn-save" onclick="savePrescription()">Save Prescription</button>
+                  <button class="btn-cancel" onclick="toggleAddPrescription()">Cancel</button>
+                </div>
+                <div class="notes-container">
+                  <div id="prescriptionsList">
+                    ${prescriptionsHtml()}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="section-title">
+                  <h3 class="section-header-title">Appointment Requests</h3>
+                </div>
+                <div class="notes-container">
+                  <div id="appointmentsList">
+                    ${appointmentsHtml()}
+                  </div>
+                </div>
+              <div class="notes-section">
+                <div class="section-title">
+                  <h3 class="section-header-title">Medical Notes</h3>
+                  <button class="btn-add" onclick="toggleAddNote()">Add Note</button>
+                </div>
+                <div id="addNoteForm" class="add-note-form">
+                  <label for="newNote">New Note</label>
+                  <textarea id="newNote" placeholder="Enter medical note..." rows="3"></textarea>
+                  <button class="btn-save" onclick="saveNote()">Save Note</button>
+                  <button class="btn-cancel" onclick="toggleAddNote()">Cancel</button>
+                </div>
+                <div class="notes-container">
+                  <div id="notesList">
+                    ${notesHtml()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+      // updates the status of an appointment
+      function updateAppointmentStatus(appointmentId, newStatus) {
+        const getRequest = db.transaction(["appointments"], "readwrite").objectStore("appointments").get(Number(appointmentId));
+        getRequest.onsuccess = function (event) {
+          event.target.result.status = newStatus;
+
+          const updateRequest = db.transaction(["appointments"], "readwrite").objectStore("appointments").put(event.target.result);
+          updateRequest.onsuccess = function () {
+            renderPatientDetails();
+          };
+          updateRequest.onerror = function (event) {
+            alert("Error updating appointment status.");
+          };
+        };
+        getRequest.onerror = function (event) {
+          alert("Error fetching appointment details.");
+        };
+      }
+      // searches for a medicine
+      function searchMedicine() {
+        if ( document.getElementById("medicineSearch").value.length === 0) {
+          document.getElementById("medicineStatus").textContent = "";
+          selectedMedicine = null;
+          document.getElementById("medicineStatus").style.display = "none";
+          return;
+        }
+        const request = db.transaction(["medicine"], "readonly").objectStore("medicine").openCursor();
+        let found = false;
+        request.onsuccess = function (event) {
+          if (event.target.result) {
+            const medicine = event.target.result.value;
+            if (medicine.drug ===  document.getElementById("medicineSearch").value) {
+              selectedMedicine = medicine;
+              document.getElementById("medicineStatus").textContent = "Medicine found";
+              document.getElementById("medicineStatus").style.display = "block";
+              found = true;
+              return;
+            }
+            event.target.result.continue();
+          } else {
+            if (!found) {
+              selectedMedicine = null;
+              document.getElementById("medicineStatus").textContent = "Medicine not found";
+              document.getElementById("medicineStatus").style.display = "block";
+            }
+          }
+        };
+        request.onerror = function () {
+          console.log("Error querying medicine");
+          document.getElementById("medicineStatus").textContent = "Error searching medicine";
+          document.getElementById("medicineStatus").style.display = "block";
+        };
+      }
+
+      // toggles for prescription (full asthatics)
+      function toggleAddPrescription() {
+        document.getElementById("addPrescriptionForm").classList.toggle("active");
+        if (document.getElementById("addPrescriptionForm").classList.contains("active")
+        ) {
+          document.getElementById("medicineSearch").focus();
+        } else {
+          document.getElementById("medicineSearch").value = "";
+          document.getElementById("medicineStatus").style.display = "none";
+          document.getElementById("prescriptionDosage").value = "";
+          document.getElementById("prescriptionFrequency").value = "";
+          document.getElementById("prescriptionDuration").value = "";
+          selectedMedicine = null;
+        }
+      }
+
+      // saves a prescription
+      function savePrescription() {
+        let medicineId;
+        if (
+          !document.getElementById("medicineSearch").value ||
+          !document.getElementById("prescriptionDosage").value ||
+          !document.getElementById("prescriptionFrequency").value ||
+          !document.getElementById("prescriptionDuration").value
+        ) {
+          alert("Please fill in all fields");
+          return;
+        }
+        if (selectedMedicine) {
+          medicineId = selectedMedicine.id;
+        } else {
+          medicineId = null;
+        }
+        // redo the way the medicineId is saving T_T
+        const newPrescription = {
+          patientId: currentPatient.id,
+          medicineId: medicineId,
+          medicineName: sanitizeInput(document.getElementById("medicineSearch").value),
+          dosage: sanitizeInput(document.getElementById("prescriptionDosage").value),
+          frequency: sanitizeInput(document.getElementById("prescriptionFrequency").value),
+          duration: sanitizeInput(document.getElementById("prescriptionDuration").value),
+          prescribedDate: "2025-10-26",
+          status: "active",
+        };
+
+        const addRequest = db.transaction(["prescriptions"], "readwrite").objectStore("prescriptions").add(newPrescription);
+        addRequest.onsuccess = function () {
+          toggleAddPrescription();
+          renderPatientDetails();
+        };
+
+        addRequest.onerror = function (event) {
+          console.error("Error saving prescription:", event.target.error);
+          alert("Error saving prescription to database. " +event.target.error.message);
+        };
+      }
+
+      // another toggles for notes (its for asthatics. asthatics✨)
+      function toggleAddNote() {
+        document.getElementById("addNoteForm").classList.toggle("active");
+        if (document.getElementById("addNoteForm").classList.contains("active")) {
+          document.getElementById("newNote").focus();
+        } else {
+          document.getElementById("newNote").value = "";
+        }
+      }
+
+      // saves a note to the database
+      function saveNote() {
+        if (!document.getElementById("newNote").value) {
+          alert("Please enter a note");
+          return;
+        }
+        const newNote = {
+          patientId: currentPatient.id,
+          date: "2025/10/26",
+          content: sanitizeInput(document.getElementById("newNote").value),
+        };
+
+        const addRequest = db.transaction(["notes"], "readwrite").objectStore("notes").add(newNote);
+        addRequest.onsuccess = function () {
+          document.getElementById("newNote").value = "";
+          toggleAddNote();
+          renderPatientDetails();
+        };
+
+        addRequest.onerror = function (event) {
+          console.error("Error saving note:", event.target.error);
+          alert("Error saving note to database. " + event.target.error.message);
+        };
+      }
+
+      // here we go sanitize again
+      function sanitizeInput(input) {
+        return (sanitized = input
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#x27;")
+          .replace(/\//g, "&#x2F;"));
+      }
+
+      document.getElementById("searchInput").addEventListener("input", renderPatients);
+      // another thhing for filter (radio button)
+      function updateFilter() {
+        if (document.getElementById("all").checked) {
+          document.getElementById("filter-all").classList.add("active");
+          document.getElementById("filter-stable").classList.remove("active");
+          document.getElementById("filter-monitoring").classList.remove("active");
+          document.getElementById("filter-critical").classList.remove("active");
+          currentFilter = "all";
+        } else if (document.getElementById("stable").checked) {
+          document.getElementById("filter-all").classList.remove("active");
+          document.getElementById("filter-stable").classList.add("active");
+          document.getElementById("filter-monitoring").classList.remove("active");
+          document.getElementById("filter-critical").classList.remove("active");
+          currentFilter = "stable";
+        } else if (document.getElementById("monitoring").checked) {
+          document.getElementById("filter-all").classList.remove("active");
+          document.getElementById("filter-stable").classList.remove("active");
+          document.getElementById("filter-monitoring").classList.add("active");
+          document.getElementById("filter-critical").classList.remove("active");
+          currentFilter = "monitoring";
+        } else if (document.getElementById("critical").checked) {
+          document.getElementById("filter-all").classList.remove("active");
+          document.getElementById("filter-stable").classList.remove("active");
+          document.getElementById("filter-monitoring").classList.remove("active");
+          document.getElementById("filter-critical").classList.add("active");
+          currentFilter = "critical";
+        }
+        renderPatients();
+      }
+
+      // another thhing for filter and getting the current doctor
+      window.addEventListener("DOMContentLoaded", function (e) {
+      if (!currentDoctor || currentDoctor!== Number(CryptoJS.AES.decrypt(localStorage.getItem("doctorId"), secretKey).toString(CryptoJS.enc.Utf8))) {
+        alert("You must be logged in to access the doctor dashboard.");
+        window.location.href = "login.html";
+      }
+        if (document.getElementById("all")) document.getElementById("all").addEventListener("change", updateFilter);
+        if (document.getElementById("stable")) document.getElementById("stable").addEventListener("change", updateFilter);
+        if (document.getElementById("monitoring")) document.getElementById("monitoring").addEventListener("change", updateFilter);
+        if (document.getElementById("critical")) document.getElementById("critical").addEventListener("change", updateFilter);
+      });
+    </script>
+  </body>
+</html>

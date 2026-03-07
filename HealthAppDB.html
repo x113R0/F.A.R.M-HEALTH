@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health App DB</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+      let db;
+      const secretKey = "1234567890987654321";
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$-_";
+
+      function generateRandomPassword(length = 10) {
+        let password = "";
+        for (let i = 0; i < length; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+      }
+
+      function fetchAndStore(url, storeName, encryptedData) {
+        return fetch(url).then((res) => res.json()).then((items) => { items.forEach((item) => {
+              const store = db.transaction([storeName], "readwrite").objectStore(storeName);
+              if (encryptedData === true) {
+                if (item.password === undefined) {
+                  item.password = generateRandomPassword();
+                }
+                const request = store.add({...item, password: CryptoJS.AES.encrypt(item.password, secretKey).toString()});
+              } else {
+                const request = store.add(item);
+              }
+              request.onsuccess = (event) => {};
+              request.onerror = (event) => {};
+            });
+          })
+          .catch((error) => {
+            console.error(`Error fetching ${storeName} data:`, error);
+          });
+      }
+
+      const request = indexedDB.open("HealthAppDB", 1);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (
+          !db.objectStoreNames.contains("admins") &&
+          !db.objectStoreNames.contains("doctors") &&
+          !db.objectStoreNames.contains("patients") &&
+          !db.objectStoreNames.contains("medicine") &&
+          !db.objectStoreNames.contains("notes") &&
+          !db.objectStoreNames.contains("prescriptions") &&
+          !db.objectStoreNames.contains("appointments")
+        ) {
+          const adminStore = db.createObjectStore("admins", { keyPath: "id", autoIncrement: true });
+          adminStore.createIndex("username", "username", { unique: true });
+          adminStore.createIndex("password", "password", { unique: true });
+
+          const doctorStore = db.createObjectStore("doctors", { keyPath: "id", autoIncrement: true });
+          doctorStore.createIndex("id", "id", { unique: true });
+          doctorStore.createIndex("first_name", "first_name", { unique: false });
+          doctorStore.createIndex("last_name", "last_name", { unique: false });
+          doctorStore.createIndex("gender", "gender", { unique: false });
+          doctorStore.createIndex("Address", "Address", { unique: false });
+          doctorStore.createIndex("email", "email", { unique: true });
+          doctorStore.createIndex("Telephone", "Telephone", { unique: true });
+          doctorStore.createIndex("password", "password", { unique: true });
+          doctorStore.createIndex("specialization", "specialization", { unique: false });
+
+          const patientStore = db.createObjectStore("patients", { keyPath: "id", autoIncrement: true });
+          patientStore.createIndex("id", "id", { unique: true });
+          patientStore.createIndex("NHS", "NHS", { unique: true });
+          patientStore.createIndex("Title", "Title", { unique: false });
+          patientStore.createIndex("First", "First", { unique: false });
+          patientStore.createIndex("Last", "Last", { unique: false });
+          patientStore.createIndex("DOB", "DOB", { unique: false });
+          patientStore.createIndex("Gender", "Gender", { unique: false });
+          patientStore.createIndex("Address", "Address", { unique: false });
+          patientStore.createIndex("email", "email", { unique: true });
+          patientStore.createIndex("Telephone", "Telephone", { unique: true });
+          patientStore.createIndex("password", "password", { unique: true });
+          patientStore.createIndex("age", "age", { unique: false });
+          patientStore.createIndex("lastVisit", "lastVisit", { unique: false });
+          patientStore.createIndex("condition", "condition", { unique: false });
+          patientStore.createIndex("status", "status", { unique: false });
+          patientStore.createIndex("nextAppointment", "nextAppointment", { unique: false });
+          patientStore.createIndex("height", "height", { unique: false });
+          patientStore.createIndex("weight", "weight", { unique: false });
+
+          const medicineStore = db.createObjectStore("medicine", { keyPath: "id", autoIncrement: true });
+          medicineStore.createIndex("id", "id", { unique: true });
+          medicineStore.createIndex("drug", "drug", { unique: false });
+
+          const notesStore = db.createObjectStore("notes", { keyPath: "id", autoIncrement: true });
+          notesStore.createIndex("id", "id", { unique: true });
+          notesStore.createIndex("patientId", "patientId", { unique: false });
+          notesStore.createIndex("date", "date", { unique: false });
+          notesStore.createIndex("content", "content", { unique: false });
+
+          const prescriptionsStore = db.createObjectStore("prescriptions", { keyPath: "id", autoIncrement: true });
+          prescriptionsStore.createIndex("id", "id", { unique: true });
+          prescriptionsStore.createIndex("patientId", "patientId", { unique: false });
+          prescriptionsStore.createIndex("medicineId", "medicineId", { unique: false });
+          prescriptionsStore.createIndex("prescribedDate", "prescribedDate", { unique: false });
+          prescriptionsStore.createIndex("dosage", "dosage", { unique: false });
+          prescriptionsStore.createIndex("frequency", "frequency", { unique: false });
+          prescriptionsStore.createIndex("duration", "duration", { unique: false });
+          prescriptionsStore.createIndex("status", "status", { unique: false });
+          prescriptionsStore.createIndex("reason", "reason", { unique: false });
+          prescriptionsStore.createIndex("requestDate", "requestDate", { unique: false });
+          prescriptionsStore.createIndex("medicineName", "medicineName", { unique: false });
+
+          const appointmentsStore = db.createObjectStore("appointments", { keyPath: "id", autoIncrement: true });
+          appointmentsStore.createIndex("id", "id", { unique: true });
+          appointmentsStore.createIndex("patientId", "patientId", { unique: false });
+          appointmentsStore.createIndex("doctorId", "doctorId", { unique: false });
+          appointmentsStore.createIndex("doctorName", "doctorName", { unique: false });
+          appointmentsStore.createIndex("preferredDate", "preferredDate", { unique: false });
+          appointmentsStore.createIndex("requestDate", "requestDate", { unique: false });
+          appointmentsStore.createIndex("preferredTime", "preferredTime", { unique: false });
+          appointmentsStore.createIndex("status", "status", { unique: false });
+          appointmentsStore.createIndex("reason", "reason", { unique: false });
+        }
+      };
+
+      request.onsuccess = (event) => {
+        db = event.target.result;
+        var baseUrl =
+          "https://raw.githubusercontent.com/Herofrx/CST2572-Assessment-01/main/";
+        fetchAndStore(baseUrl + "Admin.json", "admins", true);
+        fetchAndStore(baseUrl + "Patients.json", "patients", true);
+        fetchAndStore(baseUrl + "Medicine.json", "medicine", false);
+        fetchAndStore(baseUrl + "Doctors.json", "doctors", true);
+        // fetchAndStore(baseUrl + "Prescriptions.json", "prescriptions", false);
+        // fetchAndStore(baseUrl + "Appointments.json", "appointments", false);
+        // fetchAndStore(baseUrl + "Notes.json", "notes", false);
+      };
+      request.onerror = (event) => {
+        console.error("Database error:", event.target.error);
+      };
+    </script>
+  </head>
+  <h1>Database Creation</h1>
+</html>
