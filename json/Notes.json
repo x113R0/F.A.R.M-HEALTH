@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "patientId": 1,
+    "date": "2025-10-15",
+    "content": "Blood pressure reading: 130/85. Medication adjusted. Patient reports feeling better with new dosage."
+  },
+  {
+    "id": 2,
+    "patientId": 2,
+    "date": "2025-10-16",
+    "content": "HbA1c levels improving. Continue current treatment plan. Advised on dietary changes."
+  },
+  {
+    "id": 3,
+    "patientId": 3,
+    "date": "2025-10-17",
+    "content": "Asthma symptoms well controlled. No emergency inhaler use in past month."
+  },
+  {
+    "id": 4,
+    "patientId": 4,
+    "date": "2025-10-14",
+    "content": "Post-operative check. Wound healing well. Physical therapy recommended."
+  }
+]

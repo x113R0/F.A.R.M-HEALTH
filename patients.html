@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Dashboard - F.A.R.M. HEALTH</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="icon" type="image/png" href="img/Logo_mini.png" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/Logo.png" alt="Healthcare Logo" />
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href=#>Book Appointment</a></li>
+          <li><a href=#footer>Contact</a></li>
+          <li class="active"><a href="login.html" id="nav-login-btn">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginBtn = document.getElementById("nav-login-btn");
+        if (localStorage.getItem("adminId") || localStorage.getItem("doctorId") || localStorage.getItem("patientId")) {
+          loginBtn.textContent = "Logout";
+          loginBtn.href = "#";
+          loginBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("adminId");
+            localStorage.removeItem("doctorId");
+            localStorage.removeItem("patientId");
+            window.location.href = "login.html";
+          });
+        }
+      });
+    </script>
+    <!-- Main -->
+    <main class="doctor">
+      <div class="page-header">
+        <h1>Patient Dashboard</h1>
+        <p>
+          Access your medical records, request prescriptions, and book
+          appointments
+        </p>
+      </div>
+      <!-- Top cards -->
+      <section class="stats-grid card-grid" id="topCards">
+        <input type="radio" id="records" name="toggleCard" class="hidden" checked />
+        <label for="records" class="stat-card active" id="card-records">
+          <h3 class="card-title">Access Information</h3>
+          <p class="card-value" id="totalRecords">Records</p>
+          <img class="icon" src="img/monitor.png" alt="Records" />
+        </label>
+        <input type="radio" id="appointment" name="toggleCard"  class="hidden" />
+        <label for="appointment" class="stat-card" id="card-appointments">
+          <h3 class="card-title">Request Appointments</h3>
+          <p class="card-value" id="totalAppointments">Appointments</p>
+          <img class="icon" src="img/calender.jpg" alt="Appointments" />
+        </label>
+        <input type="radio" id="prescription" name="toggleCard"  class="hidden" />
+        <label for="prescription" class="stat-card" id="card-prescriptions">
+          <h3 class="card-title">Request Prescriptions</h3>
+          <p class="card-value" id="prescriptionCount">Prescriptions</p>
+          <img class="icon" src="img/prescriptions.jpg" alt="Prescriptions" />
+        </label>
+      </section>
+      <!-- Records Section -->
+      <section class="section active" id="section-records">
+        <div class="panel">
+          <div class="row">
+            <h2 class="section-header">My Health Records</h2>
+          </div>
+          <div class="patient-details" id="patientDetails">
+            <!-- Patient details will be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+      <!-- Appointments Section -->
+      <section class="section" id="section-appointments">
+        <div class="row">
+          <h2 class="section-header">Request Appointment</h2>
+        </div>
+        <div class="panel" id="extra-panel">
+          <div class="appointment-form">
+            <form id="appointmentForm">
+              <div class="form-group">
+                <label for="appointmentDoctor">Select Doctor</label>
+                <select id="appointmentDoctor" required>
+                  <option value="">Choose a doctor...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="appointmentDate">Preferred Date</label>
+                <input type="date" id="appointmentDate" required min="2025-10-31" max="2026-12-31"/>
+              </div>
+
+              <div class="form-group">
+                <label for="appointmentTime">Preferred Time</label>
+                <select id="appointmentTime" required>
+                  <option value="">Select time...</option>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="16:00">04:00 PM</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="appointmentReason">Reason for Appointment</label>
+                <textarea
+                  id="appointmentReason"
+                  placeholder="Please describe the reason for your appointment..."
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary">
+                Request Appointment
+              </button>
+            </form>
+          </div>
+
+          <h3 class="subsection-header">My Appointment Requests</h3>
+          <div class="request-list" id="appointmentRequests">
+            <!-- Appointment requests will be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Prescriptions Section -->
+      <section class="section" id="section-prescriptions">
+        <div class="row">
+          <h2 class="section-header">Request Prescription</h2>
+        </div>
+        <div class="panel" id="extra-panel">
+          <div class="prescription-form">
+            <form id="prescriptionForm">
+              <div class="form-group">
+                <label for="prescriptionMedicine">Medicine Name</label>
+                <input
+                  type="text"
+                  id="prescriptionMedicine"
+                  placeholder="Enter medicine name..."
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="prescriptionReason">Reason for Request</label>
+                <textarea
+                  id="prescriptionReason"
+                  placeholder="Why do you need this prescription?"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary">
+                Request Prescription
+              </button>
+            </form>
+          </div>
+
+          <h3 class="subsection-header">My Prescription Requests</h3>
+          <div class="request-list" id="prescriptionRequests">
+            <!-- Prescription requests will be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-container">
+        <img
+          src="img/Logo.png"
+          alt="F.A.R.M. Health Logo"
+          class="footer-logo"
+        />
+        <div class="footer-content">
+          <div class="footer-section about-us">
+            <h4>About Us</h4>
+            <p>
+              Farm Healthcare is dedicated to providing compassionate,
+              comprehensive medical care with a patient-centered approach. Our
+              mission is to deliver personalized, high-quality healthcare
+              services to our community.
+            </p>
+            <div class="contact-details">
+              <p>123 Healthcare Street, Dubai Healthcare City, UAE</p>
+              <p>Email: contact@farmhealthcare.com</p>
+              <p>Phone: +971 06 6767 676</p>
+            </div>
+          </div>
+
+          <div class="footer-section services">
+            <h4>Our Services</h4>
+            <div class="service-columns">
+              <div class="service-column">
+                <h5>Patient Care</h5>
+                <ul>
+                  <li><a href=#>General Medicine</a></li>
+                  <li><a href=#>Pediatrics</a></li>
+                  <li><a href=#>Gynecology</a></li>
+                  <li><a href=#>Cardiology</a></li>
+                </ul>
+              </div>
+              <div class="service-column">
+                <h5>Patient Resources</h5>
+                <ul>
+                  <li><a href=#>Book Appointment</a></li>
+                  <li><a href=#>Patient Portal</a></li>
+                  <li><a href=#>Medical Records</a></li>
+                  <li><a href=#>Insurance Guide</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-section connect">
+            <h4>Connect With Us</h4>
+            <div class="social-icons">
+              <a
+                href="facebook.com/FARMHealthCare"
+                aria-label="Facebook"
+                class="social-icon"
+              >
+                <img src="img/facebooklogo.png" alt="Facebook" />
+              </a>
+              <a
+                href="twitter.com/FARMHealthCare"
+                aria-label="Twitter"
+                class="social-icon"
+              >
+                <img src="img/xlogo.jpg" alt="Twitter" />
+              </a>
+              <a
+                href="instagram.com/FARMHealthCare"
+                aria-label="Instagram"
+                class="social-icon"
+              >
+                <img src="img/Instagramlogo.png" alt="Instagram" />
+              </a>
+              <a
+                href="linkedin.com/FARMHealthCare"
+                aria-label="LinkedIn"
+                class="social-icon"
+              >
+                <img src="img/linkedinlogo.png" alt="LinkedIn" />
+              </a>
+            </div>
+            <p class="social-description">
+              Stay connected and informed about our latest healthcare
+              initiatives, community events, and medical insights.
+            </p>
+            <a href="tel:1800-123-456" class="emergency-btn"
+              >Emergency Helpline</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Farm Healthcare. All Rights Reserved.</p>
+          <div class="legal-links">
+            <a href=#>Privacy Policy</a>
+            <a href=#>Terms of Service</a>
+            <a href=#>Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      let db;
+      const secretKey = "1234567890987654321";
+      let currentPatientId = Number(CryptoJS.AES.decrypt(localStorage.getItem("patientId"), secretKey).toString(CryptoJS.enc.Utf8));
+
+      // connects to database and sets up thinges
+      function initDatabase() {
+        var request = indexedDB.open("HealthAppDB", 1);
+        request.onerror = function (event) {
+          console.error("Database error:", event.target.error);
+        };
+        request.onsuccess = function (event) {
+          db = event.target.result;
+          loadPatientData();
+          loadDoctors();
+          loadAppointmentRequests();
+          loadPrescriptionRequests();
+          setupEventListeners();
+        };
+      }
+
+      // Load patient data to load the page infos
+      function loadPatientData() {
+        var request = db.transaction(["patients"], "readonly").objectStore("patients").get(currentPatientId);
+        request.onsuccess = function (event) {
+            displayPatientDetails(event.target.result);
+            loadPatientNotes(event.target.result.id);
+            loadPatientPrescriptions(event.target.result.id);
+          
+        };
+      }
+      // Display patient records
+      function displayPatientDetails(patient) {
+        document.getElementById("patientDetails").innerHTML =
+          `<div class="details-header">
+            <div class="details-avatar">
+              ${patient.First.charAt(0)}${patient.Last.charAt(0)}
+            </div>
+            <div class="details-info">
+              <h2 class="details-name">
+                ${patient.Title} ${patient.First} ${patient.Last}
+              </h2>
+              <p style="color: #666; margin: 5px 0">
+                NHS: ${patient.NHS} • Last Visit: ${patient.lastVisit}
+              </p>
+              <span class="status-badge status-stable">${patient.status}</span>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Date of Birth</label>
+              <value>${patient.DOB}</value>
+            </div>
+            <div class="info-item">
+              <label>Age</label>
+              <value>${patient.age} years</value>
+            </div>
+            <div class="info-item">
+              <label>Gender</label>
+              <value>${patient.Gender}</value>
+            </div>
+            <div class="info-item">
+              <label>Height</label>
+              <value>${patient.height}</value>
+            </div>
+            <div class="info-item">
+              <label>Weight</label>
+              <value>${patient.weight}</value>
+            </div>
+            <div class="info-item">
+              <label>Condition</label>
+              <value>${patient.condition}</value>
+            </div>
+            <div class="info-item">
+              <label>Next Appointment</label>
+              <value>${patient.nextAppointment}</value>
+            </div>
+            <div class="info-item">
+              <label>Contact</label>
+              <value>${patient.Telephone}</value>
+            </div>
+            <div class="info-item">
+              <label>Email</label>
+              <value>${patient.email}</value>
+            </div>
+          </div>`;
+      }
+      // Load patient notes
+      function loadPatientNotes(patientId) {
+        var request = db.transaction(["notes"], "readonly").objectStore("notes").index("patientId").getAll(patientId);
+
+        request.onsuccess = function (event) {
+          var notes = event.target.result;
+            if (notes.length === 0) {
+              var notesContainer = document.createElement("div");
+              notesContainer.innerHTML = `<h3 class="subsection-header">Medical Notes</h3><p style="color: #666; text-align: center">No notes found.</p>`;
+              document.getElementById("patientDetails").appendChild(notesContainer);
+              return;
+            }
+          var notesHTML =
+            `<h3 class="subsection-header">Medical Notes</h3>
+            <div class="notes-container">`;
+          for (var i = 0; i < notes.length; i++) {
+            var note = notes[i];
+            notesHTML +=
+            `<div class="note-item">
+              <div class="note-header">
+                <span class="note-date">${note.date}</span>
+              </div>
+              <div class="note-content">${note.content}</div>
+            </div>`;
+          }
+          notesHTML += "</div>";
+          var notesContainer = document.createElement("div");
+          notesContainer.innerHTML = notesHTML;
+          document.getElementById("patientDetails").appendChild(notesContainer);
+          };
+        }
+        // Load patient prescriptions
+        function loadPatientPrescriptions(patientId) {
+          const request = db.transaction(['prescriptions'], 'readonly').objectStore('prescriptions').index('patientId').getAll(patientId);
+          request.onsuccess = function(event) {
+            let prescriptions = event.target.result;
+            const patientDetails = document.getElementById('patientDetails');
+            let prescriptionsSection = document.getElementById('prescriptionsSection');
+            if (!prescriptionsSection) {
+              prescriptionsSection = document.createElement('div');
+              prescriptionsSection.id = 'prescriptionsSection';
+              prescriptionsSection.className = 'prescriptions-container';
+              patientDetails.appendChild(prescriptionsSection);
+            }
+
+            if (prescriptions.length === 0) {
+              prescriptionsSection.innerHTML = `
+              <h3 class="subsection-header">Current Prescriptions</h3>
+              <p style="text-align: center; color: #666">No active prescriptions found.</p>`;
+              return;
+            }
+            let prescriptionsHTML = `
+            <h3 class="subsection-header">Current Prescriptions</h3>
+            <div class="prescriptions-list">`;
+            for (var i = 0; i < prescriptions.length; i++) {
+              prescriptionsHTML += `
+                <div class="request-item">
+                  <div class="request-header">
+                    <strong>${prescriptions[i].medicineName}</strong>
+                    <span class="request-status status-${prescriptions[i].status}">
+                      ${prescriptions[i].status.toUpperCase()}
+                    </span>
+                  </div>
+                  <div class="request-details">
+                    <div>Dosage: ${prescriptions[i].dosage}</div>
+                    <div>Frequency: ${prescriptions[i].frequency}</div>
+                    <div>Duration: ${prescriptions[i].duration}</div>
+                  </div>
+                </div>`;
+            };
+            prescriptionsHTML += '</div>';
+            prescriptionsSection.innerHTML = prescriptionsHTML;
+          };
+            request.onerror = function(event) {
+                console.error('Error loading prescriptions:', event.target.error);
+            };
+        }
+
+      // Load doctors for appointment form
+      function loadDoctors() {
+        var request = db.transaction(["doctors"], "readonly").objectStore("doctors").getAll();
+        request.onsuccess = function (event) {
+          for (var i = 0; i < event.target.result.length; i++) {
+            var option = document.createElement("option");
+            option.value = event.target.result[i].id;
+            option.textContent = event.target.result[i].first_name + " " + event.target.result[i].last_name + " - " + event.target.result[i].specialization;
+            document.getElementById("appointmentDoctor").appendChild(option);
+          }
+        };
+      }
+
+      // Load appointment requests
+      function loadAppointmentRequests() {
+        var request = db.transaction(["appointments"], "readonly").objectStore("appointments").index("patientId").getAll(currentPatientId);
+        request.onsuccess = function (event) {
+          var appointments = event.target.result;
+          if (appointments.length === 0) {
+            document.getElementById("appointmentRequests").innerHTML =
+              '<p style="color: #666; text-align: center;">No appointment requests yet.</p>';
+            return;
+          }
+          var html = "";
+          for (var i = 0; i < appointments.length; i++) {
+            html +=
+              `<div class="request-item">
+                <div class="request-header">
+                  <strong>Appointment Request</strong>
+                  <span class="request-status status-${appointments[i].status}">
+                    ${appointments[i].status}
+                  </span>
+                </div>
+                <div class="request-date">Requested: ${appointments[i].requestDate}</div>
+                <div>Doctor: ${appointments[i].doctorName}</div>
+                <div>Preferred Date: ${appointments[i].preferredDate} at ${appointments[i].preferredTime}</div>
+                <div>Reason: ${appointments[i].reason}</div>
+              </div>`;
+            }
+            document.getElementById("appointmentRequests").innerHTML = html;
+          };
+        }
+
+      // Loads prescription
+      function loadPrescriptionRequests() {
+          document.getElementById("prescriptionRequests").innerHTML =
+          '<p style="color: #666; text-align: center;">No prescription requests yet.</p>';
+        var request = db.transaction(["prescriptions"], "readonly").objectStore("prescriptions").getAll();
+        request.onsuccess = function () {
+          var prescriptionRequests = request.result;
+          var html = "";
+          for (let i = 0; i < prescriptionRequests.length; i++) {
+            if (prescriptionRequests[i].status === "pending") {
+                html += `
+                  <div class="request-item">
+                    <div class="request-header">
+                      <strong>${prescriptionRequests[i].medicineName}</strong>
+                      <span class="request-status status-${prescriptionRequests[i].status}">
+                        ${prescriptionRequests[i].status.toUpperCase()}
+                      </span>
+                    </div>
+                    <div class="request-date">Requested: ${prescriptionRequests[i].requestDate}</div>
+                    <div>Reason: ${prescriptionRequests[i].reason}</div>
+                  </div>`;
+              document.getElementById("prescriptionRequests").innerHTML = html;
+            }
+          }
+        };
+        request.onerror = function () {
+          console.log("Error fetching prescription requests");
+        };
+      }
+
+      // Update form based on radio button
+      function updateForm() {
+        if (document.getElementById("records").checked) {
+          document.getElementById("card-records").classList.add("active");
+          document.getElementById("card-appointments").classList.remove("active");
+          document.getElementById("card-prescriptions").classList.remove("active");
+          document.getElementById("section-records").style.display = "block";
+          document.getElementById("section-appointments").style.display = "none";
+          document.getElementById("section-prescriptions").style.display = "none";
+        } else if (document.getElementById("appointment").checked) {
+          document.getElementById("card-records").classList.remove("active");
+          document.getElementById("card-appointments").classList.add("active");
+          document.getElementById("card-prescriptions").classList.remove("active");
+          document.getElementById("section-records").style.display = "none";
+          document.getElementById("section-appointments").style.display = "block";
+          document.getElementById("section-prescriptions").style.display = "none";
+        } else if (document.getElementById("prescription").checked) {
+          document.getElementById("card-records").classList.remove("active");
+          document.getElementById("card-appointments").classList.remove("active");
+          document.getElementById("card-prescriptions").classList.add("active");
+          document.getElementById("section-records").style.display = "none";
+          document.getElementById("section-appointments").style.display = "none";
+          document.getElementById("section-prescriptions").style.display = "block";
+        }
+      }
+
+      // I need to add sanitize function T_T
+      function sanitizeInput(input) {
+        return (sanitized = input
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#x27;")
+          .replace(/\//g, "&#x2F;"));
+      }
+
+      function setupEventListeners() {
+
+        // Appointment form submission
+        document.getElementById("appointmentForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+            var formData = {
+              patientId: currentPatientId,
+              doctorId: parseInt(
+                document.getElementById("appointmentDoctor").value
+              ),
+              doctorName: document.getElementById("appointmentDoctor").options[document.getElementById("appointmentDoctor").selectedIndex].text,
+              preferredDate: document.getElementById("appointmentDate").value,
+              preferredTime: document.getElementById("appointmentTime").value,
+              reason: sanitizeInput(document.getElementById("appointmentReason").value),
+              requestDate: "2025-10-28",
+              status: "pending",
+            };
+            var request = db.transaction(["appointments"], "readwrite").objectStore("appointments").add(formData);
+            request.onsuccess = function () {
+              alert("Appointment request submitted successfully!");
+              document.getElementById("appointmentForm").reset();
+              loadAppointmentRequests();
+            };
+            request.onerror = function () {
+              alert("Error submitting appointment request. Please try again.");
+            };
+          });
+
+        // Prescription form submission
+        document.getElementById("prescriptionForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+          var request = db.transaction(["medicine"], "readonly").objectStore("medicine").index("drug").get(document.getElementById("prescriptionMedicine").value);
+          request.onsuccess = function (event) {
+            if (event.target.result) {
+              var formData = {
+                patientId: currentPatientId,
+                medicineId: event.target.result.id,
+                medicineName: sanitizeInput(document.getElementById("prescriptionMedicine").value),
+                reason: sanitizeInput(document.getElementById("prescriptionReason").value),
+                requestDate: "2025-10-28",
+                status: "pending",
+              };
+                var request = db.transaction(["prescriptions"], "readwrite").objectStore("prescriptions").add(formData);
+                request.onsuccess = function () {
+                    alert("Prescription request submitted successfully!");
+                    document.getElementById("prescriptionForm").reset();
+                    loadPrescriptionRequests();
+                    loadPatientPrescriptions(currentPatientId);
+                };
+                request.onerror = function () {
+                    alert("Error submitting prescription request. Please try again.");
+                };
+            } else {
+              alert("Medicine not found in the database.");
+            }
+          };
+          request.onerror = function () {
+            alert("Error searching medicine.");
+          };
+          });
+      }
+      // event listener to update the form and kicks out the user if its not in local storage
+      window.addEventListener("DOMContentLoaded", function () {
+      if (!currentPatientId || currentPatientId !== Number(CryptoJS.AES.decrypt(localStorage.getItem("patientId"), secretKey).toString(CryptoJS.enc.Utf8))) {
+        alert("You must be logged in to access the patient dashboard.");
+        window.location.href = "login.html";
+      }
+        initDatabase();
+        updateForm();
+        if (document.getElementById("records")) document.getElementById("records").addEventListener("change", updateForm);
+        if (document.getElementById("appointment")) document.getElementById("appointment").addEventListener("change", updateForm);
+        if (document.getElementById("prescription")) document.getElementById("prescription").addEventListener("change", updateForm);
+      });
+    </script>
+  </body>
+</html>

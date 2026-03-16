@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - F.A.R.M. HEALTH</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="img/Logo_mini.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+      body {
+        background: linear-gradient(180deg, #0a2342, #0d3c66);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/Logo.png" alt="Healthcare Logo" />
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a onclick="lazy()">Services</a></li>
+          <li><a onclick="lazy()">Book Appointment</a></li>
+          <li><a href="#footer">Contact</a></li>
+          <li class="active"><a href="login.html" id="nav-login-btn">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginBtn = document.getElementById("nav-login-btn");
+        if (localStorage.getItem("adminId") || localStorage.getItem("doctorId") || localStorage.getItem("patientId")) {
+          loginBtn.textContent = "Logout";
+          loginBtn.href = "#";
+          loginBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("adminId");
+            localStorage.removeItem("doctorId");
+            localStorage.removeItem("patientId");
+            window.location.href = "login.html";
+          });
+        }
+      });
+    </script>
+    <main id="login-main">
+      <h1>Welcome to the Healthcare Portal</h1>
+      <p>Sign in to access your healthcare portal</p>
+      <form
+        id="loginForm"
+        action=""
+        method="post"
+        onsubmit="event.preventDefault(); validateForm();"
+      >
+        <h2>Sign in</h2>
+        <div class="tabs" aria-label="User roles">
+          <input type="radio" id="tab-patient" name="tabs" checked />
+          <label for="tab-patient">Patient</label>
+
+          <input type="radio" id="tab-doctor" name="tabs" />
+          <label for="tab-doctor">Doctor</label>
+
+          <input type="radio" id="tab-admin" name="tabs" />
+          <label for="tab-admin">Admin</label>
+        </div>
+        <div class="field">
+          <label for="email" id="label">Email:</label>
+          <input
+            type="text"
+            id="email"
+            placeholder="Enter Email"
+            required
+          />
+          <br />
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            required
+          />
+          <br />
+          <label for="remember">
+            <input
+              type="checkbox"
+              onclick="lazy()"
+              id="remember"
+              name="remember"
+            />
+            Remember me
+          </label>
+          <a onclick="lazy()" id="forgot-link">Forgot password?</a>
+          <br />
+          <button type="submit">Log-in</button>
+        </div>
+      </form>
+    </main>
+    <footer id="footer">
+      <div class="footer-container">
+        <img
+          src="img/Logo.png"
+          alt="F.A.R.M. Health Logo"
+          class="footer-logo"
+        />
+        <div class="footer-content">
+          <div class="footer-section about-us">
+            <h4>About Us</h4>
+            <p>
+              Farm Healthcare is dedicated to providing compassionate,
+              comprehensive medical care with a patient-centered approach. Our
+              mission is to deliver personalized, high-quality healthcare
+              services to our community.
+            </p>
+            <div class="contact-details">
+              <p>123 Healthcare Street, Dubai Healthcare City, UAE</p>
+              <p>Email: contact@farmhealthcare.com</p>
+              <p>Phone: +971 06 6767 676</p>
+            </div>
+          </div>
+
+          <div class="footer-section services">
+            <h4>Our Services</h4>
+            <div class="service-columns">
+              <div class="service-column">
+                <h5>Patient Care</h5>
+                <ul>
+                  <li><a onclick="lazy()">General Medicine</a></li>
+                  <li><a onclick="lazy()">Pediatrics</a></li>
+                  <li><a onclick="lazy()">Gynecology</a></li>
+                  <li><a onclick="lazy()">Cardiology</a></li>
+                </ul>
+              </div>
+              <div class="service-column">
+                <h5>Patient Resources</h5>
+                <ul>
+                  <li><a href="login.html">Book Appointment</a></li>
+                  <li><a href="patients.html">Patient Portal</a></li>
+                  <li><a onclick="lazy()">Medical Records</a></li>
+                  <li><a onclick="lazy()">Insurance Guide</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-section connect">
+            <h4>Connect With Us</h4>
+            <div class="social-icons">
+              <a
+                href="facebook.com/FARMHealthCare"
+                aria-label="Facebook"
+                class="social-icon"
+              >
+                <img src="img/facebooklogo.png" alt="Facebook" />
+              </a>
+              <a
+                href="twitter.com/FARMHealthCare"
+                aria-label="Twitter"
+                class="social-icon"
+              >
+                <img src="img/xlogo.jpg" alt="Twitter" />
+              </a>
+              <a
+                href="instagram.com/FARMHealthCare"
+                aria-label="Instagram"
+                class="social-icon"
+              >
+                <img src="img/instagramlogo.png" alt="Instagram" />
+              </a>
+              <a
+                href="linkedin.com/FARMHealthCare"
+                aria-label="LinkedIn"
+                class="social-icon"
+              >
+                <img src="img/linkedinlogo.png" alt="LinkedIn" />
+              </a>
+            </div>
+            <p class="social-description">
+              Stay connected and informed about our latest healthcare
+              initiatives, community events, and medical insights.
+            </p>
+            <a href="tel:1800-123-456" class="emergency-btn"
+              >Emergency Helpline</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Farm Healthcare. All Rights Reserved.</p>
+          <div class="legal-links">
+            <a onclick="lazy()">Privacy Policy</a>
+            <a onclick="lazy()">Terms of Service</a>
+            <a onclick="lazy()">Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      let role;
+      let db;
+      const secretKey = "1234567890987654321";
+      // Connects to the database
+      const request = indexedDB.open("HealthAppDB", 1);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+      };
+      request.onsuccess = (event) => {
+        db = event.target.result;
+      };
+      // Updates the form based on the selected role
+      function updateForm() {
+        if (document.getElementById("tab-admin").checked) {
+          document.getElementById("label").textContent = "Username";
+          document.getElementById("email").placeholder = "Enter Admin Username";
+          document.getElementById("password").placeholder = "Enter Admin Password";
+          role = "admin";
+        } else if (document.getElementById("tab-doctor").checked) {
+          document.getElementById("label").textContent = "Email";
+          document.getElementById("email").placeholder = "Enter Doctor Email";
+          document.getElementById("password").placeholder = "Enter Doctor Password";
+          role = "doctor";
+        } else if (document.getElementById("tab-patient").checked) {
+          document.getElementById("label").textContent = "Email";
+          document.getElementById("email").placeholder = "Enter Patient Email";
+          document.getElementById("password").placeholder = "Enter Patient Password";
+          role = "patient";
+        }
+      }
+      // Checks if the email/username and password are valid
+      function Check(tableName) {
+        indexname = "email";
+        if (tableName === "admins") {
+          indexname = "username";
+        }
+        const getReq = db
+          .transaction([tableName], "readonly")
+          .objectStore(tableName)
+          .index(indexname)
+          .get(sanitizeInput(document.getElementById('email').value));
+        getReq.onsuccess = (e) => {
+          if (!e.target.result) {
+            return alert(
+              `Invalid ${tableName} Email/username or password!`
+            );
+          }
+          if (
+            CryptoJS.AES.decrypt(e.target.result.password, secretKey).toString(
+              CryptoJS.enc.Utf8
+            ) === sanitizeInput(document.getElementById("password").value)
+          ) {
+            localStorage.setItem(role+"Id", CryptoJS.AES.encrypt(String(e.target.result.id), secretKey).toString());
+            return (window.location.href = `${tableName}.html`);
+          }
+          return alert(
+            `Invalid ${tableName} Email/username or password!`
+          );
+        };
+        getReq.onerror = () => {
+          alert(`Error looking up ${tableName}.`);
+        };
+      }
+      // Simple form validation to check the proper objectstore
+      function validateForm() {
+        if (role === "admin") {
+          Check("admins");
+        } else if (role === "doctor") {
+          Check("doctors");
+        } else if (role === "patient") {
+          Check("patients");
+        }
+      }
+
+      // sowwy T_T
+      function lazy() {
+        alert("Havnt decided to implemented yet");
+      }
+
+      // Sanitize input
+      function sanitizeInput(input) {
+        return (sanitized = input
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#x27;")
+          .replace(/\//g, "&#x2F;"));
+      }
+      // Event listeners to update the form
+      window.addEventListener("DOMContentLoaded", function () {
+        updateForm();
+        if (document.getElementById("tab-admin")) document.getElementById("tab-admin").addEventListener("change", updateForm);
+        if (document.getElementById("tab-doctor")) document.getElementById("tab-doctor").addEventListener("change", updateForm);
+        if (document.getElementById("tab-patient")) document.getElementById("tab-patient").addEventListener("change", updateForm);
+      });
+    </script>
+  </body>
+</html>

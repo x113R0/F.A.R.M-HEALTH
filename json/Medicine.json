@@ -1,0 +1,54 @@
+[
+  { "id": 1, "drug": "Nabumetone" },
+  { "id": 2, "drug": "Vanilla" },
+  { "id": 3, "drug": "atovaquone and proguanil hydrochloride" },
+  { "id": 4, "drug": "lorazepam" },
+  {
+    "id": 5,
+    "drug": "Aconitum napellus, Onion, Arnica montana, Antropa Belladonna, Solanum Dulcamara Top, Eupatorium Cannabinum Whole Flowering, Gelsemium Sempervirens Root"
+  },
+  { "id": 6, "drug": "BETHANECHOL CHLORIDE" },
+  { "id": 7, "drug": "Hydrocodone Bitartrate and Acetaminophen" },
+  { "id": 8, "drug": "alprazolam" },
+  {
+    "id": 9,
+    "drug": "Acetaminophen, Dextromethorphan HBr, Doxylamine succinate, Phenylephrine HCl"
+  },
+  { "id": 10, "drug": "Docusate Sodium and Senna" },
+  {
+    "id": 11,
+    "drug": "DROSERA, ARNICA MONTANA, BRYONIA, CETRARIA ISLANDICA, BELLADONNA, COCCUS CACTI, CORALLIUM RUBRUM, STANNUM METALLICUM, CHAMOMILLA, COFFEA CRUDA"
+  },
+  { "id": 12, "drug": "Trazodone Hydrochloride" },
+  { "id": 13, "drug": "Chlordiazepoxide Hydrochloride" },
+  { "id": 14, "drug": "Trazodone Hydrochloride" },
+  { "id": 15, "drug": "Magnesium Hydroxide" },
+  { "id": 16, "drug": "Zinc Oxide" },
+  { "id": 17, "drug": "TOBRAMYCIN SULFATE" },
+  { "id": 18, "drug": "Atomoxetine hydrochloride" },
+  { "id": 19, "drug": "CAMPHOR, EUCALYPTUS OIL and MENTHOL" },
+  { "id": 20, "drug": "Diphenhydramine Hydrochloride" },
+  { "id": 21, "drug": "lamotrigine" },
+  { "id": 22, "drug": "Acetaminophen" },
+  { "id": 23, "drug": "polyethylene glycol" },
+  { "id": 24, "drug": "Hydralazine Hydrochloride" },
+  { "id": 25, "drug": "Ramipril" },
+  { "id": 26, "drug": "CAMPHOR (NATURAL), MENTHOL,METHYL SALICYLATE" },
+  { "id": 27, "drug": "Menthol" },
+  { "id": 28, "drug": "Gabapentin" },
+  { "id": 29, "drug": "Fexofenadine HCl" },
+  { "id": 30, "drug": "Famotidine" },
+  { "id": 31, "drug": "Galantamine hydrobromide" },
+  { "id": 32, "drug": "RISPERIDONE" },
+  { "id": 33, "drug": "Amlodipine Besylate" },
+  {
+    "id": 34,
+    "drug": "OCTINOXATE, OCTISALATE, OXYBENZONE, OCTOCRYLENE, and AVOBENZONE"
+  },
+  { "id": 35, "drug": "Labetalol Hydrochloride" },
+  { "id": 36, "drug": "Lovastatin" },
+  { "id": 37, "drug": "Ethyl Alcohol" },
+  { "id": 38, "drug": "Bupropion Hydrochloride" },
+  { "id": 39, "drug": "OXYBENZONE, AVOBENZONE, OCTOCRYLENE" },
+  { "id": 40, "drug": "Salicylic Acid" }
+]

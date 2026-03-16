@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "patientId": 1,
+    "medicineId": 1,
+    "medicineName": "Nabumetone",
+    "dosage": "10mg",
+    "frequency": "Once daily",
+    "duration": "90 days",
+    "prescribedDate": "2025-10-15",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "patientId": 1,
+    "medicineId": 8,
+    "medicineName": "alprazolam",
+    "dosage": "81mg",
+    "frequency": "Once daily",
+    "duration": "Ongoing",
+    "prescribedDate": "2025-09-20",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "patientId": 2,
+    "medicineId": 2,
+    "medicineName": "Metformin",
+    "dosage": "500mg",
+    "frequency": "Twice daily",
+    "duration": "90 days",
+    "prescribedDate": "2025-10-16",
+    "status": "active"
+  },
+  {
+    "id": 4,
+    "patientId": 3,
+    "medicineId": 3,
+    "medicineName": "Albuterol",
+    "dosage": "90mcg",
+    "frequency": "As needed",
+    "duration": "180 days",
+    "prescribedDate": "2025-10-17",
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "patientId": 4,
+    "medicineId": 7,
+    "medicineName": "Ibuprofen",
+    "dosage": "400mg",
+    "frequency": "Three times daily",
+    "duration": "14 days",
+    "prescribedDate": "2025-10-14",
+    "status": "active"
+  }
+]
+
